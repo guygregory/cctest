@@ -44,7 +44,7 @@ To run the calculator locally:
 
 ## Deployment to Azure Static Web Apps
 
-### Option 1: Deploy via Azure Portal
+### Option 1: Deploy via Azure Portal (Recommended)
 
 1. Go to [Azure Portal](https://portal.azure.com)
 2. Create a new "Static Web App" resource
@@ -54,6 +54,9 @@ To run the calculator locally:
    - **Api location**: (leave empty)
    - **Output location**: (leave empty)
 5. Azure will automatically set up GitHub Actions for CI/CD
+6. Add the `AZURE_STATIC_WEB_APPS_API_TOKEN` to your repository secrets
+
+**Note**: A GitHub Actions workflow file (`.github/workflows/azure-static-web-apps.yml`) is already included in this repository for automated deployment.
 
 ### Option 2: Deploy via Azure CLI
 
@@ -90,6 +93,9 @@ az staticwebapp create \
 
 ```
 .
+├── .github/
+│   └── workflows/
+│       └── azure-static-web-apps.yml  # GitHub Actions workflow for Azure deployment
 ├── index.html              # Main HTML file
 ├── styles.css              # CSS styling
 ├── script.js               # Calculator logic
