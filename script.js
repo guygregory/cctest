@@ -16,6 +16,40 @@ function clearDisplay() {
     updateDisplay();
 }
 
+function clearEntry() {
+    currentInput = '0';
+    shouldResetDisplay = false;
+    updateDisplay();
+}
+
+function toggleSign() {
+    if (shouldResetDisplay) {
+        currentInput = '0';
+        shouldResetDisplay = false;
+    }
+
+    if (currentInput.startsWith('-')) {
+        currentInput = currentInput.slice(1);
+        if (currentInput === '') {
+            currentInput = '0';
+        }
+    } else {
+        currentInput = currentInput === '0' ? '-0' : '-' + currentInput;
+    }
+    updateDisplay();
+}
+
+function percentage() {
+    const value = parseFloat(currentInput);
+    if (isNaN(value)) {
+        return;
+    }
+
+    currentInput = (value / 100).toString();
+    shouldResetDisplay = false;
+    updateDisplay();
+}
+
 function deleteChar() {
     if (currentInput.length > 1) {
         currentInput = currentInput.slice(0, -1);
@@ -27,17 +61,22 @@ function deleteChar() {
 
 function appendNumber(number) {
     if (shouldResetDisplay) {
-        currentInput = number;
+        currentInput = number === '.' ? '0.' : number;
         shouldResetDisplay = false;
+        updateDisplay();
+        return;
+    }
+
+    if (number === '.' && currentInput.includes('.')) {
+        return;
+    }
+
+    if (currentInput === '0' && number !== '.') {
+        currentInput = number;
+    } else if (currentInput === '-0' && number !== '.') {
+        currentInput = '-' + number;
     } else {
-        if (currentInput === '0' && number !== '.') {
-            currentInput = number;
-        } else {
-            if (number === '.' && currentInput.includes('.')) {
-                return;
-            }
-            currentInput += number;
-        }
+        currentInput += number;
     }
     updateDisplay();
 }
@@ -107,6 +146,12 @@ document.addEventListener('keydown', (event) => {
         calculate();
     } else if (event.key === 'Escape' || event.key === 'c' || event.key === 'C') {
         clearDisplay();
+    } else if (event.key === '%' ) {
+        percentage();
+    } else if (event.key === 'Delete') {
+        clearEntry();
+    } else if (event.key === 'F9') {
+        toggleSign();
     } else if (event.key === 'Backspace') {
         deleteChar();
     }
