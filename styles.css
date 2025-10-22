@@ -70,8 +70,11 @@ body::before {
 
 .buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 64px);
     gap: 14px;
+    justify-content: center;
+    justify-items: stretch;
+    align-items: stretch;
 }
 
 .btn {
@@ -85,6 +88,10 @@ body::before {
     transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
     letter-spacing: 0.05em;
     box-shadow: 0 6px 16px rgba(255, 64, 172, 0.18);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn:hover {
@@ -121,6 +128,12 @@ body::before {
 @media (max-width: 520px) {
     .calculator {
         padding: 22px;
+    }
+
+    .buttons {
+        /* Tighten the fixed grid so four columns fit smaller screens */
+        grid-template-columns: repeat(4, 64px);
+        gap: 12px;
     }
 
     .display {
